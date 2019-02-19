@@ -1,277 +1,225 @@
-CoinMex交易所官方API文档
-==================================================
-[CoinMex][]交易所开发者文档([English Docs][])。
+CoinMex-official-api-docs
+============================================
+Official Documentation for the [BIONE]
 
 <!-- TOC -->
 
-- [介绍](#介绍)
-- [开始使用](#开始使用)
-- [API接口加密验证](#api接口加密验证)
-    - [生成API Key](#生成api-key)
-    - [发起请求](#发起请求)
-    - [签名](#签名)
-    - [选择时间戳](#选择时间戳)
-    - [请求交互](#请求交互)
-        - [请求](#请求)
-        - [分页](#分页)
-    - [标准规范](#标准规范)
-        - [时间戳](#时间戳)
-        - [例子](#例子)
-        - [数字](#数字)
-        - [限流](#限流)
-                - [REST API](#rest-api)
-- [现货(Spot)业务API参考](#现货spot业务api参考)
-    - [币币行情API](#币币行情api)
-        - [1. 获取所有币对列表](#1-获取所有币对列表)
-        - [2. 获取币对交易深度](#2-获取币对交易深度)
-        - [3. 获取币对Ticker](#3-获取币对ticker)
-        - [4. 获取币对历史成交记录](#4-获取币对历史成交记录)
-        - [5. 获取K线数据](#5-获取k线数据)
-        - [6. 获取服务器时间](#6-获取服务器时间)
-    - [币币账户API](#币币账户api)
-        - [1. 获取账户信息](#1-获取账户信息)
-        - [2. 交易委托](#2-交易委托)
-        - [3. 撤销所有委托](#3-撤销所有委托)
-        - [4. 按订单撤销委托](#4-按订单撤销委托)
-        - [5. 查询所有订单](#5-查询所有订单)
-        - [6. 按id查询订单](#6-按id查询订单)
-        - [7. 获取账单](#7-获取账单)
-        - [8. 提现](#8-提现)
+- [Introduction](#introduction)
+- [Getting Started](#getting-started)
+- [Encrypted Verification of API](#encrypted-verification-of-api)
+    - [Generate an API Key](#generate-an-api-key)
+    - [Initiate a Request](#initiate-a-request)
+    - [Signature](#signature)
+    - [Select timestamp](#select-timestamp)
+    - [Request Process](#request-process)
+        - [Request](#request)
+        - [Pagination](#pagination)
+    - [Standards and Specification](#standards-and-specification)
+        - [Timestamp](#timestamp)
+        - [For example,](#for-example)
+        - [Numbers](#numbers)
+        - [Rate Limits](#rate-limits)
+            - [REST API](#rest-api)
+- [Spot API Reference](#spot-api-reference)
+    - [Spot Market API](#spot-market-api)
+        - [1. Access the list of all trading pairs](#1-access-the-list-of-all-trading-pairs)
+        - [2. Access the depth table of trading pairs](#2-access-the-depth-table-of-trading-pairs)
+        - [3. Access the ticker of a trading pair](#3-access-the-ticker-of-a-trading-pair)
+        - [4. Access the market trading records of a trading pair](#4-access-the-market-trading-records-of-a-trading-pair)
+        - [5. Access Candlestick chart](#5-access-candlestick-chart)
+        - [6. Access Server Time](#6-access-server-time)
+    - [Spot Account API](#spot-account-api)
+        - [1. Access account information](#1-access-account-information)
+        - [2. Order Placement](#2-order-placement)
+        - [3. Cancel all orders](#3-cancel-all-orders)
+        - [4. Cancel a specified order](#4-cancel-a-specified-order)
+        - [5. Search orders](#5-search-orders)
+        - [6. Order inquiry by Order ID](#6-order-inquiry-by-order-id)
+        - [7. Access the account statement](#7-access-the-account-statement)
+        - [8. Withdrawal](#8-withdrawal)
 
 <!-- /TOC -->
+# Introduction
+Welcome to [BIONE][] API document for developers.
 
-# 介绍
+This document provides instructions on how to use APIs related to account management, market information, trading functions among others in spot trading.
 
-欢迎使用[CoinMex][]开发者文档。
+Market API provides market data that are accessible to the public. Account APIs and trading APIs, which provide functions such as order placement, order cancellation, order inquiry and account information, need identity authentication.
 
-本文档提供了现货(Spot)业务的账户管理、行情查询、交易功能等相关API的使用方法介绍。
-行情API提供市场的公开的行情数据接口，账户和交易API需要身份验证，提供下单、撤单，查询订单和帐户信息等功能。
+# Getting Started
 
-# 开始使用    
-REST，即Representational State Transfer的缩写，是一种流行的互联网传输架构。它具有结构清晰、符合标准、易于理解、扩展方便的，正得到越来越多网站的采用。其优点如下：
+REST, a.k.a Respresntational State Transfer, is an architectural style that defines a set of constraints and properties based on HTTP. REST is known for its clear structure, readability, standardization and scalability. Its advantages are as follows:
 
-+ 在RESTful架构中，每一个URL代表一种资源；
-+ 客户端和服务器之间，传递这种资源的某种表现层；
-+ 客户端通过四个HTTP指令，对服务器端资源进行操作，实现“表现层状态转化”。
++ Each URL represents one web resource in RESTful architecture;
++ Acting as a representation of resources between client and server;
++ Client is enabled to operate server-side resources with 4 HTTP requests - representational state transfer.
 
-建议开发者使用REST API进行币币交易或者资产提现等操作。
+Developers are recommended to use REST API to proceed spot trading and withdrawals.
 
-# API接口加密验证
-## 生成API Key
+# Encrypted Verification of API
+## Generate an API Key
 
-在对任何请求进行签名之前，您必须通过 CoinMex 网站【用户中心】-【API】创建一个API key。 创建key后，您将获得3个必须记住的信息：
-* API Key
+Before signing any request, you must apply an access key via BIONE’s official Email ceo@bione.cc. BIONE officials will send the access key and secret after auditing.  
+After gotten the key, there are two things you must bear in mind:
+* Access Key
 
 * Secret Key
 
-* Passphrase
+API access Key and Secret are randomly generated and provided. Please make sure not send secret key to anybody.
 
-API Key 和 Secret Key将由随机生成和提供，Passphrase由用户自己设定。
+## Signature
 
-## 发起请求
+User submitted parameters must be signed except for sign. First, the string to be signed is ordered according to the parameter name (first compare the first letter of all parameter names, in alphabetic order, if you encounter the same first letter, then you move to the second letter, and so on).
 
-所有REST请求都必须包含以下标题：
+**sign process**
 
-* ACCESS-KEY API KEY作为一个字符串。
-* ACCESS-SIGN 使用base64编码签名（请参阅签名消息）。
-* ACCESS-TIMESTAMP 作为您的请求的时间戳。
-* ACCESS-PASSPHRASE 您在创建API密钥时设置的口令。
-* 所有请求都应该含有application/json类型内容，并且是有效的JSON。
+1. sort all parameters with alphabet order； 
+2. join all parameters like this，key1value1key2value2key3value3...keyNvalueN； 
+3. use app secret as prefix and suffix like appsecret + keyvalue_result + appsecret
+4. hmac with sha256, like hash_hmac('sha256', message, appSecret, true);
+5. get the sign string with md5(appSecret . hmac_hash_value . appSecret)
 
-## 签名
-ACCESS-SIGN的请求头是对 **timestamp + method + requestPath + "?" + queryString + body** 字符串(+表示字符串连接)使用 **HMAC SHA256** 方法加密，通过**BASE64** 编码输出而得到的。其中，timestamp 的值与 ACCESS-TIMESTAMP 
-请求头相同。
 
-* method 是请求方法(POST/GET/PUT/DELETE)，字母全部大写。
-* requestPath 是请求接口路径。
-* queryString GET请求中的查询字符串
-* body 是指请求主体的字符串，如果请求没有主体(通常为GET请求)则body可省略。
+## Request Process 
+  
+The root URL for REST access：`https://www.bione.cc`
 
-**例如：对于如下的请求参数进行签名**
+### Request
+All requests are based on Https protocol.
+It is required to append accessKey=xxx&sign=xxx for the api required authentication.
 
-```bash
-curl "https://www.coinmex.com/api/v1/spot/ccex/orders?limit=100"       
+**Request Process Descriptions**
+
+1. Request parameter: parameter encapsulation based on the port request.
+
+2. Submitting request parameter: submit the encapsulated parameter request to the server via POST/GET/ or other methods.
+
+3. Server response: the server will first perform a security validation, then send back the requested data to the client in JSON format.
+
+4. Data processing: processing server response data.
+
+**Success**
+
+HTTP status code 200 indicates a successful response and may contain content. If the response contains content, it will appear in the corresponding returned content.
+
+all the response content will be a json text like below.
 ```
-* 获取获取深度信息，以 LTC-BTC 币对为例
-```java
-Timestamp = 1540286290170 
-Method = "GET"
-requestPath = "/api/v1/spot/public/products/LTC-BTC/orderbook"
-queryString= "?size=100"
-
-```
-
-生成待签名的字符串
-
-```
-Message = '1540286290170GET/api/v1/spot/public/products/LTC-BTC/orderbook?size=100'  
-```
-* 下单，以 LTC-BTC 币对为例
-
-```java
-Timestamp = 1540286476248 
-Method = "POST"
-requestPath = "/api/v1/spot/ccex/orders"
-body = {"code":"LTC_BTC","side":"buy","type":"limit","size":"1","price":"1.001"}
-
+{
+    "code": 1,
+    "msg": "success",
+    "data": xxx,
+}
 ```
 
-生成待签名的字符串
+**Common Error Code**
 
-```
-Message = '1540286476248POST/api/v1/spot/ccex/orders{"code":"LTC-BTC","side":"buy","type":"limit","size":"1","price":"1.001"}'  
-```
+* 1 success
 
-然后，将待签名字符串添加私钥参数生成最终待签名字符串。
+* 0 failed
+
+if failed, your can get the error message from field "msg"
 
 
-例如：
-```
-Signature = hmac(secretkey, Message, SHA256)
-```
-在使用前需要对于Signature进行base64编码
+### Pagination
 
-```
-Signature = base64.encode(Signature.digest())
-```
+use pagenumber and pagesize.
 
-## 请求交互  
+**For example:**
 
-REST访问的根URL：`https://www.coinmex.com`
+`GET /orders?pagenumber=1&pagesize=20`
 
-### 请求
+## Standards and Specification
 
-所有请求基于Https协议，请求头信息中Content-Type 需要统一设置为:'application/json’。
+### Timestamp
 
-**请求交互说明**
+Unless otherwise specified, all timestamps in APIs are returned in microseconds.
 
-1、请求参数：根据接口请求参数规定进行参数封装。
+The ACCESS-TIMESTAMP header must be the number of seconds since UTC's time [Unix Epoch][]. Decimal values are allowed. 
+Your timestamp must be within 30 seconds of the API service time, otherwise your request will be considered expired and rejected. If you think there is a large time difference between your server and the API server, then we recommend that you use the time point to check the API server time.
 
-2、提交请求参数：将封装好的请求参数通过POST/GET/DELETE等方式提交至服务器。
-
-3、服务器响应：服务器首先对用户请求数据进行参数安全校验，通过校验后根据业务逻辑将响应数据以JSON格式返回给用户。
-
-4、数据处理：对服务器响应数据进行处理。
-
-**成功**
-
-HTTP状态码200表示成功响应，并可能包含内容。如果响应含有内容，则将显示在相应的返回内容里面。
-
-**常见错误码**
-
-* 400 Bad Request – Invalid request forma 请求格式无效
-
-* 401 Unauthorized – Invalid API Key 无效的API Key
-
-* 403 Forbidden – You do not have access to the requested resource 请求无权限
-
-* 404 Not Found 没有找到请求
-
-* 429 Too Many Requests 请求太频繁被系统限流
-
-* 500 Internal Server Error – We had a problem with our server 服务器内部错误
-
-* 如果失败，response body 带有错误描述信息
-### 分页
-
-部分返回数据集的REST请求支持使用游标分页。
-游标分页允许在结果的当前页面之前和之后获取结果，并且非常适合于实时数据。根据当前的返回结果，后续请求可以在此基础之上指定请求数据的方向，可以请求在这之前和之后的数据。before和after游标可通过响应头CB_BEFORE和CB_AFTER使用。
-
-**例子**
-
-`GET /orders?before=2&limit=30`
-
-## 标准规范
-
-### 时间戳
-
-除非另外指定，API中的所有时间戳均以微秒为单位返回。
-
-请求签名中的ACCESS-TIMESTAMP的单位是秒，允许用小数表示更精确的时间。请求的时间戳必须在API服务时间的30秒内，否则请求将被视为过期并被拒绝。如果本地服务器时间和API服务器时间之间存在较大的偏差，那么我们建议您使用通过查询API服务器时间来更新http header。
-
-### 例子
+### For example,
 
 1524801032573
 
-### 数字
+### Numbers
 
-为了保持跨平台时精度的完整性，十进制数字作为字符串返回。建议您在发起请求时也将数字转换为字符串以避免截断和精度错误。 
+In order to maintain the accuracy of cross-platform, decimal numbers are returned as strings. We suggest that you might be better to convert the number to string when issuing the request to avoid truncation and precision errors. Integers (such as transaction number and sequence) do not need quotation marks.
 
-整数（如交易编号和顺序）不加引号。
+### Rate Limits
 
-### 限流
+When a rate limit is exceeded, a status of 429 Too Many Requests will be returned.
 
-如果请求过于频繁系统将自动限制请求，并在http header中返回429 too many requests状态码。
+#### REST API
 
-##### REST API
+* Public interface: We limit the invocation of public interface via IP: up to 6 requests every 2s.
 
-* 公共接口：我们通过IP限制公共接口的调用：每2秒最多6个请求。
+* Private interface: We limit the invocation of private interface via user ID: up to 6 requests every 2s.
 
-* 私人接口：我们通过用户ID限制私人接口的调用：每2秒最多6个请求。
+* Special restrictions on specified interfaces are specified.
 
-* 某些接口的特殊限制在具体的接口上注明
+# Spot API Reference
 
-# 现货(Spot)业务API参考
+## Spot Market API
 
-## 币币行情API
+### 1. Access the list of all trading pairs
 
-### 1. 获取所有币对列表
-
-**HTTP请求**
+**HTTP Request**
 
 ```http
     # Request
-    GET /api/v1/spot/public/products
+    GET /api/v2/markets
 ```
 ```javascript
     # Response
     [
         {
-            "baseCurrency":"LTC",
-            "baseMaxSize":"100000.00",
-            "baseMinSize":"0.001",
-            "code":"LTC_BTC",
-            "quoteCurrency":"BTC",
-            "quoteIncrement":"0.00000001"
-            "quotePrecision":"8",
-            "volumeIncrement":"8"
+            "market": "eth_usdt",
+            "coin_pre": "eth",
+            "coin_suf": "usdt",
+            "vol": "1417.64830900",
+            "change": "4.86000000",
+            "quotePrecision": 6,
+            "buy_min": "",
+            "buy_max": "",
+            "sell_min": "",
+            "sell_max": ""
         },
-        {  "baseCurrency":"ETH",
-            "baseMaxSize":"100000.00",
-            "baseMinSize":"0.001",
-            "code":"ETH_BTC",
-            "quoteCurrency":"BTC",
-            "quoteIncrement":"0.00000001"
-            "quotePrecision":"8",
-            "volumeIncrement":"8"
+        {
+            "market": "bcd_usdt",
+            "coin_pre": "bcd",
+            "coin_suf": "usdt",
+            "vol": "388.82555700",
+            "change": "1.46000000",
+            "quotePrecision": 6,
+            "buy_min": "",
+            "buy_max": "",
+            "sell_min": "",
+            "sell_max": ""
         },
         ...
     ]
 ```
 
-**返回值说明**  
+**Response Details**
 
-
-|返回字段 | 字段说明|
+| Field | Descirption |
 | ----------|:-------:|
-| code            | 币对代码|
-| baseCurrency   | 基础币 |
-| quoteCurrency  | 计价币 |
-| baseMinSize   | 最小委托量 |
-| baseMaxSize   | 最大委托量 |
-| quoteIncrement | 最小报价单位 |
-| quotePrecision | 报价精度 |
-| volumeIncrement | 委托变动单位 |
+| code        | Trading pair code |
+| baseCurrency   | Base currency |
+| quoteCurrency  | Quote currency |
+| baseMinSize   | Minimum Transaction Volume |
+| baseMaxSize   | Maximum Transaction Volume |
+| quoteIncrement | Ticker Size |
+| quotePrecision | Quote Precision |
+| volumeIncrement | Volume Increase Size |
 
-### 2. 获取币对交易深度
+### 2. Access the depth table of trading pairs
 
-    获取币对盘口深度的请求列表。
-
-**HTTP请求**
+**HTTP Request**
 
 ```http
     # Request
-    GET /api/v1/spot/public/products/<code>/orderbook
+    GET /api/v2/depth
 ```
 ```javascript
     # Response
@@ -292,127 +240,118 @@ HTTP状态码200表示成功响应，并可能包含内容。如果响应含有�
         ]
     }
 ```
-**返回值说明**  
+**Response Details**  
 
 
-|返回字段|字段说明|  
-| ------------- |----|
-| asks | 卖方深度 |
-| bids | 买方深度 |
+|Field|Description|  
+|---- |------------|
+| asks | depth of sellers |
+| bids | depth of buyers |
 
-**请求参数**  
+**Request Paramters**
 
+| Name | Type  | Requited | Description |
+| ------------- |-----|-----|-----|
+| Code | String | Y | Trading Pair, e.g. ltc_btc |
 
-| 参数名 | 参数类型  | 必填 | 描述 |
-| ------------- |----|----|----|
-| Code | String | 是 | 币对, 如 ltc_btc |
+### 3. Access the ticker of a trading pair
 
-### 3. 获取币对Ticker
+**HTTP Request**
 
-**HTTP请求**
-
-    最新成交、24h最高、24h最低和24h成交量的快照信息。
+    The snapshot of the latest price, the highest bid price, the lowest ask price and 24-hour trading volume.
 
 ```http
     # Request
-    GET /api/v1/spot/public/products/<code>/ticker
+    GET /api/v2/ticker/:market
 ```
 
 ```javascript
     # Response
     [
-        1527066527725,
-        "8275.1844",
-        "7783.8063",
-        "7845.2459",
-        "451.8678",
-        "8249.9494",
-        "7845.2459"
+        "symbol": "eth_usdt",
+        "buy": "0.00000000",
+        "sell": "0.00000000",
+        "high": "145.01000000",
+        "low": "129.19000000",
+        "last": "145.01000000",
+        "vol": "1418.15673100",
+        "change": "4.87000000"
     ]
 ```
 
-**返回值说明（从上到下按顺序)**
+**Response Details (from the top down)**
 
- 
-|返回字段|字段说明|
+|Field|Description|
 |--------| :-------: |
-|时间戳| 1527066527725 |
-|24h 最高|8275.1844|
-|24h 最低|7783.8063|
-|最新成交价|7845.2459|
-|24h成交量|451.8678|
-|24h开盘价|8249.9494|
-|24h收盘价|7845.2459|
-    
-    
-**请求参数**
+| timestamp | 1527066527725 |
+| 24hr Highest|8275.1844|
+| 24hr Lowest|7783.8063|
+| latest price|7845.2459|
+| 24h Vol|451.8678|
+| 24h Open|8249.9494|
+| 24h Close|7845.2459|
 
-|参数名|参数类型|必填|描述|
-|------|----|:---:|:---:|
-|code|String|是|币对,如 btc_usdt|
-    
-### 4. 获取币对历史成交记录，支持分页查询
+**Request Parameter**
 
-    获取所请求交易对的历史成交信息，该请求支持分页。
+|Name|Type|Required|Description| 
+|------|-----|-----|-----|
+|code|String|Y|Trading Pair, e.g. btc_usdt|
 
-**HTTP请求**
+### 4. Access the market trading records of a trading pair
+
+    The request supports pagination.
+
+**HTTP Request**
 ```http
     # Request
-    GET /api/v1/spot/public/products/<code>/fills
+    GET /api/v2/deal/:market?pagenumber=1&pagesize=10
 ```
 ```javascript
     # Response
     [
         [
-            "0.00329999",
-            "10.99999999",
-            "buy",
-            1524801032573,
-            64
+           "amount": "0.11590600",
+           "date": 1550544363,
+           "price": "145.00000000",
+           "type": 1
         ],
         [
-            "10",
-            "0.02521534",
-            "sell",
-            1524801032573,
-            62
+            "amount": "0.11590600",
+            "date": 1550544363,
+            "price": "145.00000000",
+            "type": 2
         ]
     ]
 ```
+**Response Description (In order)**
 
-**返回值说明（按顺序）**
+|Field|Description|
+|--------|-----|
+|Execution Price |0.00329999|
+|Volume |10.99999999|
+|Maker Side|Buy|
+|Timestamp| 1524801032573|
 
+**Request Paramters**
 
-|返回字段|字段说明|
-|--------|----|
-|成交价格 |0.00329999|
-|成交量 |10.99999999|
-|Maker成交方向|Buy|
-|成交时间戳| 1524801032573|
-|交易编号| 62|
+|Name|Type|Required|Description| 
+|-----|-----|-----|-----| 
+|code|String|Y|Trading pair, e.g. btc_usdt|
 
-**请求参数**
+    **Explanation**
 
- |参数名|参数类型|必填|描述|
-|-----|:---:|----|----|
-|code|String|是|币对，如btc_usdt|
-|limit|Integer|否|请求返回数据量，默认最大值 100|
+    + Side indicates that the direction of the order the maker places. Maker refers to a trader who places orders in the market, a marker is a passive transaction party
 
-**解释说明**
+    + Buy suggests price fall, because the maker places a buy order and the order is executed, the price falls; in contrary, sell suggests price rise, because the maker places a sell order and the order is executed, the price rises.
 
-  + 交易方向 side 表示每一笔成交订单中 maker 下单方向,maker 是指将订单挂在订单深度列表上的交易用户，即被动成交方。
+### 5. Access Candlestick chart
 
-  + buy 代表行情下跌，因为 maker 是买单，maker 的买单被成交，所以价格下跌；相反的情况下，sell代表行情上涨，因为此时maker是卖单，卖单被成交，表示上涨。
-
-### 5. 获取K线数据
-
-**HTTP请求**
+**HTTP Request**
 
 ```http
     # Request
-    GET  /api/v1/spot/public/products/<code>/candles?type=1min&start=start_time&end=end_time
+    GET  /api/v2/kline/:market?type=1min&start=start_time&end=end_time
 ```
-    
 ```javascript
     # Response
     {
@@ -421,143 +360,141 @@ HTTP状态码200表示成功响应，并可能包含内容。如果响应含有�
     }
 ```
 
-**返回值说明（按顺序）**  
+**Response Details (in order)**
     
-|返回字段|字段说明|
-|-----|----|
-|K线开始时间戳|1415398768|
-|最低价|0.32|
-|最高价|0.42|
-|开盘价（第一笔交易）|0.36|
-|收盘价（最后一笔交易）|0.41|
+|Field|Description|
+|-----|-----|
+|Start timestamp|1415398768|
+|The lowest price|0.32|
+|The highest price|0.42|
+|Opening price|0.36|
+|Closing price|0.41|
 
-**请求参数**
+**Request parameters**
     
-|参数名|参数类型|必填|描述|
-|-----|----|----|----|
-|code|String|是|币对如btc_usdt|
-|type|String|是|K线周期类型如1min/1hour/day/week/month|
-|start|String|是|基于ISO 8601标准的开始时间|
-|end|String|是|基于ISO 8601标准的结束时间|
+|Name|Type|Required|Description|
+|-----|-----|-----|-----|
+|code|String|Y|Trading pair, e.g.btc_usdt|
+|type|String|Y|Candlestick chart period type, e.g.1min/1hour/day/week/month|
+|start|String|Y|Opening time based on ISO 8601|
+|end|String|Y|Closing time based on ISO 8601|
 
-### 6. 获取服务器时间
+### 6. Access Server Time
 
-    获取API服务器的时间的接口。此接口不需要身份验证。
+    Access API server time. This interface does not require ID authentication.
 
-**HTTP请求**
+**HTTP Request**
 ```http
     # Request
     
-    GET /api/v1/spot/public/time
+    GET /api/v2/public/time
 ```
     
 ```javascript
     # Reponse
 
     {
-        "iso": "2015-01-07T23:47:25.201Z",
-        "epoch": 1524801032573
+        "timestamp": 1524801032
     }
 ```
     
-**返回值说明**
+**Response Description**
     
-|返回字段|字段说明|
-|-----|----|
-|iso|为iso 8061标准的时间字符串表达的服务器时间|
-|epoch|时间戳形式表达的服务器时间|
+|Field|Description|  
+|------|-----|  
+|epoch|server time expressed in second|
+|iso|server time expressed in time string by ISO 8061|
+|timestamp|server time expressed in millisecond|
 
+       iso: Response is returned in time string by ISO 8061
+       epoch: Response is retured in timestamp
 
-    iso：返回值为iso 8061标准的时间字符串  
-    epoch：返回值为时间戳
+    It is an API for accessing all the available trading pairs and their trading parameters.
 
-## 币币账户API
+## Spot Account API
 
-### 1. 获取账户信息
+### 1. Access account information
 
-    获取币币交易账户余额列表，查询各币种的余额，冻结和可用情况
+    Access the list of balance, inquiry of coin balances, freezing status and available fund in spot account.
 
-**HTTP请求**
-
+**HTTP Request**
 ```
     # Request
-    GET /api/v1/spot/ccex/account/assets
+    GET /api/v2/account/assets
 ```
 ```
     # Response
     [
         {
-            "available":"0.1",
-            "balance":"0.1",
-            "currencyCode":"ETH",
-            "hold":"0",
-            "id":1
+            "coin": "btc",
+            "available": "0.02809200",
+            "freeze": "0.00000000",
+            "balance": 0.028092
         },
         {
-            "available":"1",
-            "balance":"1",
-            "currencyCode":"USDT",
-            "hold":"0",
-            "id":1
+           "coin": "ltc",
+           "available": "0.00000000",
+           "freeze": "0.00000000",
+           "balance": 0
         }
     ]
 ```
 
-**返回值说明**
+**Response Details**
 
-|返回字段|字段说明|
-|----|----|
-|available|可用资金|
-|balance|币种数量|
-|currencyCode|币种代码|
-|hold|冻结资金|
-|id|账户ID|
+|Field|Description|
+|-----|-----|
+|available|Avaliable Fund|
+|balance|Number of coins in balance|
+|currencyCode|Coin symbol|
+|frozen|Frozen fund|
+|id|Account ID|
 
-### 2. 交易委托
+### 2. Order Placement
 
-    CoinMex 提供限价和市价两种订单类型。
+    There are two categrories of orders that can be placed on CoinMex -- limit order and market order.
 
-**HTTP请求**
+**HTTP Request**
 ```
     # Request
 
-    POST /api/v1/spot/ccex/orders
+    POST /api/v2/order/create?accessKey=your_access_key&sign=your_sign_str&market=fund_usdt&unitPrice=0.000300&type=1&number=100
 ```
 
 ```javascript
     # Response
 
     {
-        "result": true,
+        "orderSn": "HB1234567",
         "order_id": 123456
     }
 ```
     
-**返回值说明**
+    **Response Details**
 
-    + orderId: 订单ID
-    + result: 下单结果
+    + orderId: Order ID
+    + result: the result of the order placed
 
-**请求参数**
+**Request Paramters**
 
-|参数名| 参数类型 |必填|描述|
-|:----:|:----:|:---:|----|
-|code|String|是|币对如btc_usdt|
-|side|String|是|买入为buy，卖出为sell|
-|type|String|是|限价委托为limit，市价委托为market
-|size|String|否|发出限价委托以及市价卖出委托时传递，代表交易币的数量|
-|price|String|否|发出限价委托时传递，代表币对价格
-|funds|String|否|发出市价买入委托时传递，代表计价币的数量
+|Name| Type | Required | Description |
+|----|----|-----|-----|
+|code|String|Y|Trading pair, e.g.btc_usdt|
+|side|String|N|buy or sell|
+|type|String|Y|limit order or market order|
+|size|String|N|delivered when a limit order or selling market order if placed,representing the number of coins for trading|
+|price|String|N|delivered when a limit order is placed, representing the price of the pair
+|funds|String|N|delievered then a market order is placed, representing the number of quote currencies
 
 
-### 3. 撤销所有委托
+### 3. Cancel all orders
 
-    撤销目标币对下所有未成交委托,由于是异步撤单所以该接口没有返回值。
+    Cancel all unfilled orders of the target trading pair.
 
-**HTTP请求**
+**HTTP Request**
 ```
     # Request
-    DELETE /api/v1/spot/ccex/orders
+    DELETE /api/v2/order/batchcancel?market=eth_usdt&orderids=1,2,3&accessKey=your_access_key&sign=your_sign_str
 ```
 ```javascript
     # Response
@@ -565,202 +502,216 @@ HTTP状态码200表示成功响应，并可能包含内容。如果响应含有�
     { ...}
 ```
 
-**请求参数**
+**Request Paramters**
 
-|参数名|参数类型|必填|描述|
-|----|----| ----| ----|
-|code|String|是|币对, 如 btc_usdt|
-|orderId|Long[]|否|订单id数组, 如 [10010L,10011L,10012L],目前只支持最多撤销50条订单，如果不填则撤销50条未完成订单|
+|Name|Paramters|Type|Description|
+|----|-----| -----| -----|
+|code|String|Y|Trading pairs, e.g. btc_usdt|
 
-### 4. 按订单撤销委托
+### 4. Cancel a specified order
 
-    按照订单id撤销指定订单,由于是异步撤单所以该接口没有返回值。
+    Cancel a specified order by order ID
 
-**HTTP请求**
+**HTTP Request**
 
 ```http
     # Request
-    DELETE /api/v1/spot/ccex/orders/{orderId}
+    GET /api/v2/order/cancel
 ```
 ```javascript
     # Response
     {...}
 ```
 
-**请求参数**
+**Request Paramters**
 
-|参数名|参数类型|必填|描述|
-|---|----|----|----|
-|code|String|是|币对,如 btc_usdt|
-|orderId|String|是|需要撤销的未成交委托的id（注：url 中的 orderId，如 ：/api/v1/spot/ccex/orders/10010）
+|Name|Type|Required|Description|
+|-----|-----|-----|-----|
+|code|String|Y|Trading Pair, e.g. btc_usdt|
+|orderId|String|Y|The ID of an unfilled order specified need to be cancelled|
 
-### 5. 查询所有订单，支持分页查询
+### 5. Search orders
 
-    按照订单状态查询所有订单。
+    Check all the orders by order status.
     
-**HTTP请求**
+**HTTP Request**
 
 ```http   
     # Request
-    GET /api/v1/spot/ccex/orders?code=eth_btc&status=open
+    GET /api/v2/orders?market=fund_usdt&status=xxx&accessKey=your_access_key&sign=your_sign_str
 ```
 ```javascript
     # Response
     {
-        "averagePrice": "0",
-        "code": "chp_eth",
-        "createdDate": 1526299182000,
-        "filledVolume": "0",
-        "funds": "0",
-        "orderId": 9865872,
-        "orderType": "limit",
-        "price": "0.00001",
-        "side": "buy",
-        "status": "canceled",
-        "volume": "1"
+        "id": 6188977,
+        "userid": 12,
+        "order_number": "I218573604654579",
+        "market": "fund_usdt",
+        "market_type": 1,
+        "type": 1,
+        "price": "0.00030000",
+        "num": "100.00000000",
+        "deal": "0.00000000",
+        "mum": "0.03000000",
+        "fee": null,
+        "nature": "",
+        "sort": null,
+        "addtime": 1550457360,
+        "endtime": null,
+        "status": 3
     }
 ```
 
-**返回值说明**
+**Response Details**
 
-|返回字段|字段说明|
-|----|----|
-|averagePrice|订单已成交部分均价，如果未成交则为0|
-|code|币对如btc_usdt|
-|createDate|创建订单的时间戳|
-|filledVolume|订单已成交数量|
-|funds|订单已成交金额|
-|orderId|订单代码|
-|price|订单委托价|
-|side|订单交易方向|
-|status|订单状态|
-|volume|订单委托数量|
+|Field|Description|
+|-----|-----|
+|averagePrice|average price for the filled orders; 0 for the unfilled orders|
+|code|Trading pair, e.g.btc_usdt|
+|createDate|Timestamp upon the placement of the order|
+|filledVolume|the volume of the filled orders|
+|funds|the amount of the filled|
+|orderId|Order ID|
+|price|Price set for the order|
+|side|Order direction|
+|status|Order Status|
+|volume|Volume of coins in the order placed|
 
 **请求参数**
 
-|参数名 | 参数类型 | 必填 | 描述 |
-|---|----|----|----|
-| code|String|是|币对如btc_usdt|
-|status|String|是| 订单状态，﻿open（未成交）、filled（已完成）、canceled（已撤销）、cancel（撤销中）、partially-filled（部分成交）|
-|limit|Integer|否|请求返回数据量，默认最大值 100|
+|Name | Type | Required | Description |
+|------|-----|-----|-----|
+|code|String|Y|Trading pair, e.g.btc_usdt|
+|status|String|Y| Order Status:open,filled,canceled,cancel,partially-filled|
 
-### 6. 按id查询订单
+### 6. Order inquiry by Order ID
 
-    按照订单id查询指定订单。
+    Inquiry of a specified order by order ID
 
-**HTTP请求**
+**HTTP Request**
 ```http
     # Request
-    GET /api/v1/spot/ccex/orders/﻿9887828?code=chp_eth
+    GET /api/v2/order/query?orderid=your_order_id&market=your_market&accessKey=your_access_key&sign=your_sign_str
 ```
 ```javascript
     # Response 
     {
-        "averagePrice":"0",
-        "code":"chp_eth",
-        "createdDate":9887828,
-        "filledVolume":"0",
-        "funds":"0",
-        "orderId":9865872,
-        "orderType":"limit",
-        "price":"0.00001",
-        "side":"buy",
-        "status":"canceled",
-        "volume":"1"
+       "id": 6188675,
+       "userid": 12,
+       "order_number": "I218564861103484",
+       "market": "fund_usdt",
+       "market_type": 1,
+       "type": 1,
+       "price": "0.00030000",
+       "num": "100.00000000",
+       "deal": "0.00000000",
+       "mum": "0.03000000",
+       "fee": null,
+       "nature": "",
+       "sort": null,
+       "addtime": 1550456486,
+       "endtime": null,
+       "status": 3
     }
 ```
 
-**返回值说明**
+**Response Details**
     
-|返回字段|字段说明|
-|-----|----|
-|averagePrice|订单已成交部分均价，如果未成交则为0|
-|code|币对如btc_usdt|
-|createDate|创建订单的时间戳|
-|filledVolume|订单已成交数量|
-|funds|订单已成交金额|
-|orderId|订单代码|
-|price|订单委托价|
-|side|订单交易方向|
-|status|订单状态|
-|volume|订单委托数量|
+|Field|Description|
+|------|-----|
+|averagePrice|average price for the filled orders; 0 for the unfilled orders|
+|code|Trading pair, e.g.btc_usdt|
+|createDate|Timestamp upon the placement of the order|
+|filledVolume|the volume of the filled orders|
+|funds|the amount of the filled|
+|orderId|Order ID|
+|price|Price set for the order|
+|side|Order direction|
+|status|Order Status|
+|volume|Volume of coins in the order placed|
 
-**请求参数**  
+**Request Paramters**
     
-|参数名|参数类型|必填|描述|
-|-----|----|----|----|
-|code|String|是|币对，如 btc_usdt|
-|orderId|String|是|订单Id|
+|Name|Type|Required|Description
+|-----|-----|-----|-----
+|code|String|Y|Trading pair, e.g.btc_usdt|
+|orderId|String|Y|Order Id|
 
-### 7. 获取账单，支持分页查询
+### 7. Access the account statement
 
-    获取币币交易账户账单
+    Access the statement of a spot account
 
-**HTTP请求**
+**HTTP Request**
 ```http
     # Request
-    GET /api/v1/spot/ccex/account/eth/ledger
+    GET /api/v2/account/bill/:currencyCode?accessKey=your_access_key&sign=your_sign_str
 ```
 ```javascript
     # Response
     {
-        "amount": "0.00106415",
-        "balance": "0.65106415",
-        "createdDate": 1526290483000,
-        "details": {
-            "orderId":9772566,
-            "productId":"ETH_BTC"
-        },
-        "id": 27826010,
-        "type": "buy"
+       "id": 19010805,
+       "userid": 12,
+       "order_number": "I111863328528718",
+       "market": "cjz_eth",
+       "operation": 2,
+       "type": 2,
+       "currency_abbr": "eth",
+       "currency_total": "0.01490000",
+       "c_before_normal": "2.41457859",
+       "c_before_bfreeze": "0.00000000",
+       "c_before_total": "2.41457859",
+       "c_after_normal": "2.39967859",
+       "c_after_bfreeze": "0.01490000",
+       "c_after_total": "2.41457859",
+       "fee": "0.00000000",
+       "log_id": "4996256",
+       "move": "",
+       "addtime": 1547186332,
+       "status": 1
     }
 ```
 
-**返回值说明**
+**Response Details**
 
-|返回字段 | 字段说明 |
-|----|----|
-|amount|账单发生数量|
-|balance|账单资产余额|
-|createdDate|账单发生时间戳|
-|details|账单详情|
-|orderId|账单对应订单代码|
-|productId|账单对应交易产品代码|
-|id|账单代码|
-|type|交易类型|
+|Field | Description |
+|-----|-----|
+|amount|Volume of coins traded on the statement|
+|balance|Statement balance|
+|createdDate|Timestamp on the statement taking place|
+|details|Statement Details|
+|orderId|Order ID|
+|productId|Product ID|
+|id|Statement ID|
+|type|Transaction Type|
 
-**请求参数**  
-    
-|参数名|参数类型|必填|描述|
-|----|---|---|---|
-|currencyCode|String|是| 币种代码，如btc|
-|limit|Integer|否|请求返回数据量，默认最大值 100|
+**Request Paramters**
 
-### 8. 提现
+|Name|Type|Required|Description|
+|----|-----|-----|-----|
+|code|String|Y| Trading pair, e.g.btc_usdt|
 
-提现到钱包地址
+### 8. Withdrawal
 
-**HTTP请求**
+    Withdraw to your wallet address.
+
+**HTTP Request**
 
 ```http
     # Request
-    POST /api/v1/spot/ccex/account/withdraw
+    GET /api/v2/account/withdraw?coin=your_coin_name&num=your_withdraw_num&addr=your_coin_address&accessKey=your_access_key&sign=your_sign_str
 ```
-    
 ```javascript
     # Response
     { ... }
 ```
 
-**请求参数** 
+**Request Parameters**
 
-|参数名|参数类型|必填|描述  
-|---|----|----|----|
-|currencyCode|String|是|提现币种名称如BTC|
-|amount|String|是|提现数量|
-|address|String|是|提现地址|
-  
+|Name|Type|Required|Description
+|-----|-----|-----|-----|
+|currencyCode|String|Y|Name of coin to be withdrawn, e.g.BTC|
+|amount|String|Y|Withdraw amount|
+|address|String|Y| Withdraw address|
 
-[CoinMex]: https://www.coinmex.com 
-[English Docs]: https://github.com/coinmex/coinmex-official-api-docs/blob/master/README_EN.md
-[Unix Epoch]: https://en.wikipedia.org/wiki/Unix_time
+
+[BIONE]: https://www.bione.cc 
