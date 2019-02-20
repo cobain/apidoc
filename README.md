@@ -113,9 +113,11 @@ all the response content will be a json text like below.
 
 **Common Error Code**
 
-* 1 success
+* 1,  success
 
-* 0 failed
+* 0 or others, failed
+
+
 
 if failed, your can get the error message from field "msg"
 
