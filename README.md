@@ -297,7 +297,7 @@ When a rate limit is exceeded, a status of 429 Too Many Requests will be returne
 
 |Name|Type|Required|Description| 
 |------|-----|-----|-----|
-|code|String|Y|Trading Pair, e.g. btc_usdt|
+|market|String|Y|Trading Pair, e.g. btc_usdt|
 
 ### 4. Access the market trading records of a trading pair
 
