@@ -680,13 +680,14 @@ When a rate limit is exceeded, a status of 429 Too Many Requests will be returne
 
 |Field | Description |
 |-----|-----|
-|amount|Volume of coins traded on the statement|
-|balance|Statement balance|
+|id|Statement ID|
+|userid|User ID|
+|currency_total|Volume of coins traded on the statement|
+|c_before_normal|Statement balance|
 |createdDate|Timestamp on the statement taking place|
 |details|Statement Details|
-|orderId|Order ID|
+|order_number|Order SN|
 |productId|Product ID|
-|id|Statement ID|
 |type|Transaction Type|
 
 **Request Paramters**
@@ -714,9 +715,9 @@ When a rate limit is exceeded, a status of 429 Too Many Requests will be returne
 
 |Name|Type|Required|Description
 |-----|-----|-----|-----|
-|currencyCode|String|Y|Name of coin to be withdrawn, e.g.BTC|
-|amount|String|Y|Withdraw amount|
-|address|String|Y| Withdraw address|
+|coin|String|Y|Name of coin to be withdrawn, e.g.BTC|
+|num|String|Y|Withdraw amount|
+|addr|String|Y| Withdraw address|
 
 
 [BIONE]: https://www.bione.cc 
