@@ -476,20 +476,18 @@ When a rate limit is exceeded, a status of 429 Too Many Requests will be returne
 ```
     
     **Response Details**
-
-    + orderId: Order ID
-    + result: the result of the order placed
+    
+    + order_id: Order ID
+    + orderSn: Order Sn number
 
 **Request Paramters**
 
 |Name| Type | Required | Description |
 |----|----|-----|-----|
-|code|String|Y|Trading pair, e.g.btc_usdt|
-|side|String|N|buy or sell|
-|type|String|Y|limit order or market order|
-|size|String|N|delivered when a limit order or selling market order if placed,representing the number of coins for trading|
-|price|String|N|delivered when a limit order is placed, representing the price of the pair
-|funds|String|N|delievered then a market order is placed, representing the number of quote currencies
+|market|String|Y|Trading pair, e.g.btc_usdt|
+|type|String|N|1 or 2（1:buy, 2:sell)|
+|number|String|N|delivered when a limit order or selling market order if placed,representing the number of coins for trading|
+|unitPrice|String|N|delivered when a limit order is placed, representing the price of the pair
 
 
 ### 3. Cancel all orders
