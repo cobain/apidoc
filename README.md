@@ -625,7 +625,7 @@ When a rate limit is exceeded, a status of 429 Too Many Requests will be returne
 |Field|Description|
 |------|-----|
 |averagePrice|average price for the filled orders; 0 for the unfilled orders|
-|code|Trading pair, e.g.btc_usdt|
+|market|Trading pair, e.g.btc_usdt|
 |createDate|Timestamp upon the placement of the order|
 |filledVolume|the volume of the filled orders|
 |funds|the amount of the filled|
@@ -639,8 +639,8 @@ When a rate limit is exceeded, a status of 429 Too Many Requests will be returne
     
 |Name|Type|Required|Description
 |-----|-----|-----|-----
-|code|String|Y|Trading pair, e.g.btc_usdt|
-|orderId|String|Y|Order Id|
+|market|String|Y|Trading pair, e.g.btc_usdt|
+|orderid|String|Y|Order Id|
 
 ### 7. Access the account statement
 
