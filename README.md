@@ -206,14 +206,16 @@ When a rate limit is exceeded, a status of 429 Too Many Requests will be returne
 
 | Field | Descirption |
 | ----------|:-------:|
-| code        | Trading pair code |
-| baseCurrency   | Base currency |
-| quoteCurrency  | Quote currency |
-| baseMinSize   | Minimum Transaction Volume |
-| baseMaxSize   | Maximum Transaction Volume |
-| quoteIncrement | Ticker Size |
+| market        | Trading pair code |
+| coin_suf   | Base currency |
+| coin_pre  | Quote currency |
+| vol   | Volume |
+| change   | 24h change value |
 | quotePrecision | Quote Precision |
-| volumeIncrement | Volume Increase Size |
+| buy_min   | Minimum buy Volume |
+| buy_max   | Maximum buy Volume |
+| sell_min   | Minimum sell Volume |
+| sell_max   | Maximum max Volume |
 
 ### 2. Access the depth table of trading pairs
 
