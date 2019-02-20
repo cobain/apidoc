@@ -450,11 +450,10 @@ When a rate limit is exceeded, a status of 429 Too Many Requests will be returne
 
 |Field|Description|
 |-----|-----|
+|coin|Coin symbol|
 |available|Avaliable Fund|
+|freeze|Frozen fund|
 |balance|Number of coins in balance|
-|currencyCode|Coin symbol|
-|frozen|Frozen fund|
-|id|Account ID|
 
 ### 2. Order Placement
 
