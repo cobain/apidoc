@@ -578,7 +578,7 @@ It is an API for accessing all the available trading pairs and their trading par
 |deal|deal volume of the order|
 |mum|total amount|
 |addtime|create time for the order|
-|status|Order Status|
+|status|Order Status(1: wait for deal, 2: already deal. 3: canceled|
 
 **Request Paramters**
 
