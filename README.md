@@ -221,7 +221,7 @@ When a rate limit is exceeded, a status of 429 Too Many Requests will be returne
 
 ```http
     # Request
-    GET /api/v2/depth
+    GET /api/v2/depth?market=xxxx
 ```
 ```javascript
     # Response
@@ -254,7 +254,7 @@ When a rate limit is exceeded, a status of 429 Too Many Requests will be returne
 
 | Name | Type  | Requited | Description |
 | ------------- |-----|-----|-----|
-| Code | String | Y | Trading Pair, e.g. ltc_btc |
+| market | String | Y | Trading Pair, e.g. ltc_btc |
 
 ### 3. Access the ticker of a trading pair
 
