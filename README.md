@@ -408,14 +408,10 @@ When a rate limit is exceeded, a status of 429 Too Many Requests will be returne
     
 |Field|Description|  
 |------|-----|  
-|epoch|server time expressed in second|
-|iso|server time expressed in time string by ISO 8061|
 |timestamp|server time expressed in millisecond|
 
-       iso: Response is returned in time string by ISO 8061
-       epoch: Response is retured in timestamp
 
-    It is an API for accessing all the available trading pairs and their trading parameters.
+It is an API for accessing all the available trading pairs and their trading parameters.
 
 ## Spot Account API
 
@@ -582,7 +578,7 @@ When a rate limit is exceeded, a status of 429 Too Many Requests will be returne
 |status|Order Status|
 |volume|Volume of coins in the order placed|
 
-**请求参数**
+**Request Paramters**
 
 |Name | Type | Required | Description |
 |------|-----|-----|-----|
