@@ -293,7 +293,6 @@ When a rate limit is exceeded, a status of 429 Too Many Requests will be returne
 | last|latest price|
 | vol|24h Vol|
 | change|24h change|
-| 24h Close|7845.2459|
 
 **Request Parameter**
 
@@ -331,16 +330,16 @@ When a rate limit is exceeded, a status of 429 Too Many Requests will be returne
 
 |Field|Description|
 |--------|-----|
-|Execution Price |0.00329999|
-|Volume |10.99999999|
-|Maker Side|Buy|
-|Timestamp| 1524801032573|
+|amount |volume|
+|date |timstamp|
+|price|Execution Price|
+|type| maker side(1:buy, 2:sell)|
 
 **Request Paramters**
 
 |Name|Type|Required|Description| 
 |-----|-----|-----|-----| 
-|code|String|Y|Trading pair, e.g. btc_usdt|
+|market|String|Y|Trading pair, e.g. btc_usdt|
 
     **Explanation**
 
