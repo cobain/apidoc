@@ -285,12 +285,14 @@ When a rate limit is exceeded, a status of 429 Too Many Requests will be returne
 
 |Field|Description|
 |--------| :-------: |
-| timestamp | 1527066527725 |
-| 24hr Highest|8275.1844|
-| 24hr Lowest|7783.8063|
-| latest price|7845.2459|
-| 24h Vol|451.8678|
-| 24h Open|8249.9494|
+| symbol | trade pair |
+| buy|buy|
+| sell|sell|
+| high|24hr Highest|
+| low |24hr Lowest|
+| last|latest price|
+| vol|24h Vol|
+| change|24h change|
 | 24h Close|7845.2459|
 
 **Request Parameter**
