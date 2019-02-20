@@ -77,7 +77,7 @@ User submitted parameters must be signed except for sign. First, the string to b
 2. join all parameters like this，key1value1key2value2key3value3...keyNvalueN； 
 3. use app secret as prefix and suffix like appsecret + keyvalue_result + appsecret
 4. hmac with sha256, like hash_hmac('sha256', message, appSecret, true);
-5. get the sign string with md5(appSecret . hmac_hash_value . appSecret)
+5. get the sign string with md5(appSecret + hmac_hash_value + appSecret)
 
 
 ## Request Process 
