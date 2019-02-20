@@ -567,16 +567,18 @@ It is an API for accessing all the available trading pairs and their trading par
 
 |Field|Description|
 |-----|-----|
-|averagePrice|average price for the filled orders; 0 for the unfilled orders|
+|id|Order ID|
+|userid|User ID|
+|order_number|order sn number|
 |market|Trading pair, e.g.btc_usdt|
-|createDate|Timestamp upon the placement of the order|
-|filledVolume|the volume of the filled orders|
-|funds|the amount of the filled|
-|orderId|Order ID|
+|market_type|ignore this field currently. keep for future.|
+|type|maker side(1:buy, 2:sell)|
 |price|Price set for the order|
-|side|Order direction|
+|num|Volume of coins in the order placed|
+|deal|deal volume of the order|
+|mum|total amount|
+|addtime|create time for the order|
 |status|Order Status|
-|volume|Volume of coins in the order placed|
 
 **Request Paramters**
 
