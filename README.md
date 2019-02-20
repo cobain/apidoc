@@ -358,7 +358,7 @@ When a rate limit is exceeded, a status of 429 Too Many Requests will be returne
 ```javascript
     # Response
     {
-        [ 1415398768, 0.32, 0.42, 0.36, 0.41, 12.3 ]
+        [ 1550504940000, 0.888547, 138.23, 138.24, 138.23, 138.24 ]
         ...
     }
 ```
@@ -368,19 +368,20 @@ When a rate limit is exceeded, a status of 429 Too Many Requests will be returne
 |Field|Description|
 |-----|-----|
 |Start timestamp|1415398768|
-|The lowest price|0.32|
-|The highest price|0.42|
-|Opening price|0.36|
-|Closing price|0.41|
+|volume|0.888547|
+|Opening price| 138.23|
+|The lowest price|138.23|
+|The highest price|138.24|
+|Closing price|138.24|
 
 **Request parameters**
     
 |Name|Type|Required|Description|
 |-----|-----|-----|-----|
-|code|String|Y|Trading pair, e.g.btc_usdt|
-|type|String|Y|Candlestick chart period type, e.g.1min/1hour/day/week/month|
-|start|String|Y|Opening time based on ISO 8601|
-|end|String|Y|Closing time based on ISO 8601|
+|market|String|Y|Trading pair, e.g.eth_usdt|
+|type|String|Y|Candlestick chart period type, e.g.1min/15min/30min/1hour/1day/1week|
+|start|String|Y|timestamp|
+|end|String|Y|timestamp|
 
 ### 6. Access Server Time
 
