@@ -492,7 +492,7 @@ When a rate limit is exceeded, a status of 429 Too Many Requests will be returne
 
 ### 3. Cancel all orders
 
-    Cancel all unfilled orders of the target trading pair.
+    Cancel multi unfilled orders of the target trading pair.
 
 **HTTP Request**
 ```
@@ -509,7 +509,9 @@ When a rate limit is exceeded, a status of 429 Too Many Requests will be returne
 
 |Name|Paramters|Type|Description|
 |----|-----| -----| -----|
-|code|String|Y|Trading pairs, e.g. btc_usdt|
+|market|String|Y|Trading pairs, e.g. btc_usdt|
+|orderids|String|Y|all order id，separate with comma|
+
 
 ### 4. Cancel a specified order
 
@@ -530,7 +532,7 @@ When a rate limit is exceeded, a status of 429 Too Many Requests will be returne
 
 |Name|Type|Required|Description|
 |-----|-----|-----|-----|
-|code|String|Y|Trading Pair, e.g. btc_usdt|
+|market|String|Y|Trading Pair, e.g. btc_usdt|
 |orderId|String|Y|The ID of an unfilled order specified need to be cancelled|
 
 ### 5. Search orders
@@ -570,7 +572,7 @@ When a rate limit is exceeded, a status of 429 Too Many Requests will be returne
 |Field|Description|
 |-----|-----|
 |averagePrice|average price for the filled orders; 0 for the unfilled orders|
-|code|Trading pair, e.g.btc_usdt|
+|market|Trading pair, e.g.btc_usdt|
 |createDate|Timestamp upon the placement of the order|
 |filledVolume|the volume of the filled orders|
 |funds|the amount of the filled|
@@ -584,7 +586,7 @@ When a rate limit is exceeded, a status of 429 Too Many Requests will be returne
 
 |Name | Type | Required | Description |
 |------|-----|-----|-----|
-|code|String|Y|Trading pair, e.g.btc_usdt|
+|market|String|Y|Trading pair, e.g.btc_usdt|
 |status|String|Y| Order Status:open,filled,canceled,cancel,partially-filled|
 
 ### 6. Order inquiry by Order ID
