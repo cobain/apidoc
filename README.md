@@ -1,4 +1,4 @@
-CoinMex-official-api-docs
+Bione-official-api-docs
 ============================================
 Official Documentation for the [BIONE]
 
@@ -453,7 +453,7 @@ It is an API for accessing all the available trading pairs and their trading par
 
 ### 2. Order Placement
 
-    There are two categrories of orders that can be placed on CoinMex -- limit order and market order.
+    create order for market.
 
 **HTTP Request**
 ```
