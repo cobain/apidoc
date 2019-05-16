@@ -529,7 +529,7 @@ It is an API for accessing all the available trading pairs and their trading par
 |Name|Type|Required|Description|
 |-----|-----|-----|-----|
 |market|String|Y|Trading Pair, e.g. btc_usdt|
-|orderId|String|Y|The ID of an unfilled order specified need to be cancelled|
+|orderid|String|Y|The ID of an unfilled order specified need to be cancelled|
 
 ### 5. Search orders
 
@@ -585,7 +585,7 @@ It is an API for accessing all the available trading pairs and their trading par
 |Name | Type | Required | Description |
 |------|-----|-----|-----|
 |market|String|Y|Trading pair, e.g.btc_usdt|
-|status|String|Y| Order Status:open,filled,canceled,cancel,partially-filled|
+|status|String|Y| Order Status(1: wait for deal, 2: already deal. 3: canceled|
 
 ### 6. Order inquiry by Order ID
 
