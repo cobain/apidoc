@@ -536,6 +536,7 @@ It is an API for accessing all the available trading pairs and their trading par
     Check all the orders by order status.
     
 **HTTP Request**
+   The request supports pagination. You can refre to the Pagination above.
 
 ```http   
     # Request
